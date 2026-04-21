@@ -1,0 +1,490 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "RAG Implementation API",
+    "description": "A Retrieval-Augmented Generation (RAG) API using Ollama and .NET 10",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/RAG/documents": {
+      "post": {
+        "tags": [
+          "RAG"
+        ],
+        "summary": "Add a new document to the vector store",
+        "requestBody": {
+          "description": "Document content and optional metadata",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDocumentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDocumentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDocumentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document successfully added to the vector store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Document"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error occurred while processing the document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RAG/query": {
+      "post": {
+        "tags": [
+          "RAG"
+        ],
+        "summary": "Query the RAG system with a question",
+        "requestBody": {
+          "description": "Query text and number of documents to retrieve",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueryRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueryRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully generated answer from retrieved context",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error occurred while processing the query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RAG/upload": {
+      "post": {
+        "tags": [
+          "RAG"
+        ],
+        "summary": "Upload one or more document files to the vector store",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "description": "The document files to upload (PDF, TXT, DOCX)"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Optional category for all uploaded files"
+                  },
+                  "source": {
+                    "type": "string",
+                    "description": "Optional source identifier for all uploaded files"
+                  }
+                }
+              },
+              "encoding": {
+                "files": {
+                  "style": "form"
+                },
+                "category": {
+                  "style": "form"
+                },
+                "source": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Files processed (check response for individual file results)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No files provided or invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RAG/upload/supported-types": {
+      "get": {
+        "tags": [
+          "RAG"
+        ],
+        "summary": "Get list of supported file types for upload",
+        "responses": {
+          "200": {
+            "description": "List of supported file extensions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/WeatherForecast": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "operationId": "GetWeatherForecast",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddDocumentRequest": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "The text content of the document",
+            "nullable": true,
+            "example": "The capital of France is Paris. It is known for the Eiffel Tower."
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Optional metadata key-value pairs for the document",
+            "nullable": true,
+            "example": {
+              "source": "geography",
+              "category": "cities"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request model for adding a new document"
+      },
+      "Document": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the document",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "description": "The text content of the document",
+            "nullable": true
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Custom metadata associated with the document",
+            "nullable": true
+          },
+          "embedding": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "float"
+            },
+            "description": "Vector embedding representation of the document content",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a document stored in the vector database"
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message",
+            "nullable": true
+          },
+          "details": {
+            "type": "string",
+            "description": "Detailed error information",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Error response model"
+      },
+      "FileUploadError": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "description": "Name of the file that failed",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message describing what went wrong",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents an error that occurred during file upload"
+      },
+      "FileUploadResponse": {
+        "type": "object",
+        "properties": {
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Document"
+            },
+            "description": "List of successfully processed documents",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileUploadError"
+            },
+            "description": "List of files that failed to process",
+            "nullable": true
+          },
+          "totalFiles": {
+            "type": "integer",
+            "description": "Total number of files uploaded",
+            "format": "int32"
+          },
+          "successCount": {
+            "type": "integer",
+            "description": "Number of successfully processed files",
+            "format": "int32"
+          },
+          "failureCount": {
+            "type": "integer",
+            "description": "Number of failed files",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response model for file upload operations"
+      },
+      "QueryRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "The question or search query",
+            "nullable": true,
+            "example": "What is the capital of France?"
+          },
+          "topK": {
+            "type": "integer",
+            "description": "Number of most relevant documents to retrieve (default: 3)",
+            "format": "int32",
+            "example": 3
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request model for querying the RAG system"
+      },
+      "QueryResponse": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string",
+            "description": "The AI-generated answer based on retrieved context",
+            "nullable": true
+          },
+          "retrievedDocuments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RetrievedDocument"
+            },
+            "description": "List of documents retrieved from the vector store",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Response model containing the AI-generated answer and retrieved documents"
+      },
+      "RetrievedDocument": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "The content of the retrieved document",
+            "nullable": true
+          },
+          "similarity": {
+            "type": "number",
+            "description": "Cosine similarity score between query and document (0-1)",
+            "format": "float"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Metadata associated with the document",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a document retrieved from the vector store with similarity score"
+      },
+      "WeatherForecast": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "temperatureC": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "temperatureF": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "RAG"
+    },
+    {
+      "name": "WeatherForecast"
+    }
+  ]
+}

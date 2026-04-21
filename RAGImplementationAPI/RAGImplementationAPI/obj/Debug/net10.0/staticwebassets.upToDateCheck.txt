@@ -1,0 +1,2 @@
+wwwroot\upload.html
+C:\Users\Raushan\source\repos\RAGImplementationAPI\RAGImplementationAPI\wwwroot\upload.html

@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "dgSpecHash": "c/K2yRst3Dk=",
+  "success": true,
+  "projectFilePath": "D:\\Project\\SEMS\\RAGImplementationUsingOllama\\RAGImplementationAPI\\RAGImplementationAPI\\RAGImplementationAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Raushan\\.nuget\\packages\\documentformat.openxml\\3.2.0\\documentformat.openxml.3.2.0.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\documentformat.openxml.framework\\3.2.0\\documentformat.openxml.framework.3.2.0.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\itext\\9.0.0\\itext.9.0.0.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\itext.commons\\9.0.0\\itext.commons.9.0.0.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\itext7\\9.0.0\\itext7.9.0.0.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.6\\microsoft.aspnetcore.openapi.10.0.6.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\microsoft.dotnet.platformabstractions\\1.1.0\\microsoft.dotnet.platformabstractions.1.1.0.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\microsoft.extensions.apidescription.server\\10.0.0\\microsoft.extensions.apidescription.server.10.0.0.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\microsoft.extensions.dependencymodel\\1.1.0\\microsoft.extensions.dependencymodel.1.1.0.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\microsoft.openapi\\2.4.1\\microsoft.openapi.2.4.1.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\swashbuckle.aspnetcore\\10.1.7\\swashbuckle.aspnetcore.10.1.7.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\10.1.7\\swashbuckle.aspnetcore.swagger.10.1.7.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\10.1.7\\swashbuckle.aspnetcore.swaggergen.10.1.7.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\10.1.7\\swashbuckle.aspnetcore.swaggerui.10.1.7.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512",
+    "C:\\Users\\Raushan\\.nuget\\packages\\system.numerics.tensors\\9.0.0\\system.numerics.tensors.9.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

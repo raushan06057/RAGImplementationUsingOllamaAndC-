@@ -1,0 +1,259 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RAGImplementationAPI</name>
+    </assembly>
+    <members>
+        <member name="T:RAGImplementationAPI.Controllers.RAGController">
+            <summary>
+            RAG (Retrieval-Augmented Generation) API endpoints for document management and querying
+            </summary>
+        </member>
+        <member name="M:RAGImplementationAPI.Controllers.RAGController.AddDocument(RAGImplementationAPI.Controllers.AddDocumentRequest)">
+            <summary>
+            Add a new document to the vector store
+            </summary>
+            <param name="request">Document content and optional metadata</param>
+            <returns>The created document with its embedding and unique ID</returns>
+            <response code="200">Document successfully added to the vector store</response>
+            <response code="500">Internal server error occurred while processing the document</response>
+        </member>
+        <member name="M:RAGImplementationAPI.Controllers.RAGController.Query(RAGImplementationAPI.Models.QueryRequest)">
+            <summary>
+            Query the RAG system with a question
+            </summary>
+            <param name="request">Query text and number of documents to retrieve</param>
+            <returns>AI-generated answer based on retrieved relevant documents</returns>
+            <response code="200">Successfully generated answer from retrieved context</response>
+            <response code="400">Invalid query request</response>
+            <response code="500">Internal server error occurred while processing the query</response>
+        </member>
+        <member name="M:RAGImplementationAPI.Controllers.RAGController.UploadDocuments(Microsoft.AspNetCore.Http.IFormFileCollection,System.String,System.String)">
+            <summary>
+            Upload one or more document files to the vector store
+            </summary>
+            <param name="files">The document files to upload (PDF, TXT, DOCX)</param>
+            <param name="category">Optional category for all uploaded files</param>
+            <param name="source">Optional source identifier for all uploaded files</param>
+            <returns>Upload results with successfully processed documents and any errors</returns>
+            <response code="200">Files processed (check response for individual file results)</response>
+            <response code="400">No files provided or invalid request</response>
+            <response code="500">Internal server error occurred</response>
+        </member>
+        <member name="M:RAGImplementationAPI.Controllers.RAGController.GetSupportedFileTypes">
+            <summary>
+            Get list of supported file types for upload
+            </summary>
+            <returns>List of supported file extensions</returns>
+            <response code="200">List of supported file extensions</response>
+        </member>
+        <member name="T:RAGImplementationAPI.Controllers.AddDocumentRequest">
+            <summary>
+            Request model for adding a new document
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Controllers.AddDocumentRequest.Content">
+            <summary>
+            The text content of the document
+            </summary>
+            <example>The capital of France is Paris. It is known for the Eiffel Tower.</example>
+        </member>
+        <member name="P:RAGImplementationAPI.Controllers.AddDocumentRequest.Metadata">
+            <summary>
+            Optional metadata key-value pairs for the document
+            </summary>
+            <example>{ "source": "geography", "category": "cities" }</example>
+        </member>
+        <member name="T:RAGImplementationAPI.Controllers.ErrorResponse">
+            <summary>
+            Error response model
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Controllers.ErrorResponse.Error">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Controllers.ErrorResponse.Details">
+            <summary>
+            Detailed error information
+            </summary>
+        </member>
+        <member name="T:RAGImplementationAPI.Examples.RAGExamples">
+            <summary>
+            Example scenarios for using the RAG API
+            </summary>
+        </member>
+        <member name="T:RAGImplementationAPI.Models.Document">
+            <summary>
+            Represents a document stored in the vector database
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.Document.Id">
+            <summary>
+            Unique identifier for the document
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.Document.Content">
+            <summary>
+            The text content of the document
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.Document.Metadata">
+            <summary>
+            Custom metadata associated with the document
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.Document.Embedding">
+            <summary>
+            Vector embedding representation of the document content
+            </summary>
+        </member>
+        <member name="T:RAGImplementationAPI.Models.FileUploadResponse">
+            <summary>
+            Response model for file upload operations
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.FileUploadResponse.Documents">
+            <summary>
+            List of successfully processed documents
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.FileUploadResponse.Errors">
+            <summary>
+            List of files that failed to process
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.FileUploadResponse.TotalFiles">
+            <summary>
+            Total number of files uploaded
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.FileUploadResponse.SuccessCount">
+            <summary>
+            Number of successfully processed files
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.FileUploadResponse.FailureCount">
+            <summary>
+            Number of failed files
+            </summary>
+        </member>
+        <member name="T:RAGImplementationAPI.Models.FileUploadError">
+            <summary>
+            Represents an error that occurred during file upload
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.FileUploadError.FileName">
+            <summary>
+            Name of the file that failed
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.FileUploadError.Error">
+            <summary>
+            Error message describing what went wrong
+            </summary>
+        </member>
+        <member name="T:RAGImplementationAPI.Models.QueryRequest">
+            <summary>
+            Request model for querying the RAG system
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.QueryRequest.Query">
+            <summary>
+            The question or search query
+            </summary>
+            <example>What is the capital of France?</example>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.QueryRequest.TopK">
+            <summary>
+            Number of most relevant documents to retrieve (default: 3)
+            </summary>
+            <example>3</example>
+        </member>
+        <member name="T:RAGImplementationAPI.Models.QueryResponse">
+            <summary>
+            Response model containing the AI-generated answer and retrieved documents
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.QueryResponse.Answer">
+            <summary>
+            The AI-generated answer based on retrieved context
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.QueryResponse.RetrievedDocuments">
+            <summary>
+            List of documents retrieved from the vector store
+            </summary>
+        </member>
+        <member name="T:RAGImplementationAPI.Models.RetrievedDocument">
+            <summary>
+            Represents a document retrieved from the vector store with similarity score
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.RetrievedDocument.Content">
+            <summary>
+            The content of the retrieved document
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.RetrievedDocument.Similarity">
+            <summary>
+            Cosine similarity score between query and document (0-1)
+            </summary>
+        </member>
+        <member name="P:RAGImplementationAPI.Models.RetrievedDocument.Metadata">
+            <summary>
+            Metadata associated with the document
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type)">
+            <summary>
+            Generates a documentation comment ID for a type.
+            Example: T:Namespace.Outer+Inner`1 becomes T:Namespace.Outer.Inner`1
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.PropertyInfo)">
+            <summary>
+            Generates a documentation comment ID for a property.
+            Example: P:Namespace.ContainingType.PropertyName or for an indexer P:Namespace.ContainingType.Item(System.Int32)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type,System.String)">
+            <summary>
+            Generates a documentation comment ID for a property given its container type and property name.
+            Example: P:Namespace.ContainingType.PropertyName
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.MethodInfo)">
+            <summary>
+            Generates a documentation comment ID for a method (or constructor).
+            For example:
+              M:Namespace.ContainingType.MethodName(ParamType1,ParamType2)~ReturnType
+              M:Namespace.ContainingType.#ctor(ParamType)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.GetTypeDocId(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Generates a documentation ID string for a type.
+            This method handles nested types (replacing '+' with '.'),
+            generic types, arrays, pointers, by-ref types, and generic parameters.
+            The <paramref name="includeGenericArguments"/> flag controls whether
+            constructed generic type arguments are emitted, while <paramref name="omitGenericArity"/>
+            controls whether the generic arity marker (e.g. "`1") is appended.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.NormalizeDocId(System.String)">
+            <summary>
+            Normalizes a documentation comment ID to match the compiler-style format.
+            Strips the return type suffix for ordinary methods but retains it for conversion operators.
+            </summary>
+            <param name="docId">The documentation comment ID to normalize.</param>
+            <returns>The normalized documentation comment ID.</returns>
+        </member>
+    </members>
+</doc>
